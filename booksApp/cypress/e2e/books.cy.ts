@@ -32,7 +32,7 @@ describe('Books App ', () => {
    it('Adding a book', () => {
     cy.visit('/');
     cy.login('test@test.com', 'test');
-    cy.addBook('Сказки', 'Для детей' , 'С. М. Маршак');
+    cy.addBook('Стихи', 'О любви' , 'А. С. Пушкин');
     cy
     .contains('Add to favorite')
     .should('be.visible');
@@ -41,28 +41,35 @@ describe('Books App ', () => {
    it('Add a book to favorites ', () => {
     cy.visit('/');
     cy.login('test@test.com', 'test');
-    cy.addBook('Сказки', 'Для детей' , 'С. М. Маршак');
-    cy
-    .contains('Add to favorite')
-    .should('be.visible')
-    .click();
-    cy
-    .contains('Delete from favorite')
-    .should('be.visible');
+    cy.addBook('Сказки', 'Для детей' , 'С. Я. Маршак');
+    cy.contains('.card-title', 'Сказки') 
+    .parents('.card')
+    .within(() => { 
+      cy.contains('Add to favorite')
+        .should('be.visible')
+        .click() 
+      cy.contains('Delete from favorite')
+        .should('be.visible');
+    })
    })
 
-   it('Remove a book to favorites ', () => {
+   it('Remove a book from favorites ', () => {
     cy.visit('/');
     cy.login('test@test.com', 'test');
-    cy.addBook('Сказки', 'Для детей' , 'С. М. Маршак');
-    cy
-    .contains('Add to favorite')
-    .should('be.visible')
-    .click();
-    cy
-    .contains('Delete from favorite')
-    .should('be.visible')
-    .contains('Delete from favorite')
-    .click();
-   })
- }) 
+    cy.addBook('Золотая роза', 'Повести' , 'К. Г. Паустовский');
+    cy.contains('.card-title', 'Золотая роза')
+    .parents('.card')
+    .within(() => {
+      cy.contains('Add to favorite')
+        .should('be.visible')
+        .click();
+      
+      cy.contains('Delete from favorite')
+        .should('be.visible')
+        .click();
+        
+      cy.contains('Add to favorite')
+        .should('be.visible');
+     })
+   }) 
+ })

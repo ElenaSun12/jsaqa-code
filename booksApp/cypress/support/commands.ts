@@ -50,6 +50,9 @@ Cypress.Commands.add('addBook', (title, description, authors) => {
     cy
     .contains('Submit')
     .click();
+    cy
+    .contains('Add to favorite', { timeout: 10000 })
+    .should('be.visible');
 })
 //
 //
